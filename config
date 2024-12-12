@@ -1,0 +1,44 @@
+GET THE COUCH BASE IMAGE------------------------------------------------------
+ docker pull couchbase:latest
+
+-------------------------------APPROACH 1-------------------------------------
+SPIN UP TWO CLUSTERS----------------------------------------------------------
+
+docker run -d --name couchbase \
+-p 8091-8094:8091-8094 -p 11210:11210 \
+couchbase
+
+docker run -d --name couchbase2 \
+-p 9091-9094:8091-8094 -p 11211:11210 \
+couchbase
+
+
+AFTER DOING THIS MY CONTAINERS WERE NOT GETTING CONNECTED
+
+
+-------------------------------APPROACH 2-------------------------------------
+CREATE A DOCKER NETWORK------
+docker network create couchbase_network
+
+ADD TWO CLUSTERS IN DOCKER NETWORK--------------------------------------------
+
+docker run -d --name couchbase \
+--network couchbase_network \
+-p 8091-8094:8091-8094 -p 11210:11210 \
+couchbase
+
+docker run -d --name couchbase2 \
+--network couchbase_network \
+-p 9091-9094:8091-8094 -p 11211:11210 \
+couchbase
+
+
+GET THE NETWORK INFORMATION-----------------------------------------------------
+docker network inspect couchbase_network
+
+FROM THE NETWORK INFORMATION I GOT THE IP OF MY CLUSTER BUT STILL NOT CONNECTED
+
+
+
+CONNECTED SUCCESSFULLY-----------------------------------------------------------
+
